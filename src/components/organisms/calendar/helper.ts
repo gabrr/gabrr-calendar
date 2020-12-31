@@ -15,7 +15,6 @@ export const monthIndicatorConstructor = (date: string) => {
         getMonthName(`${month2}`),
         getMonthName(`${month3}`)
     ]
-
 }
 
 export const indicatorClass = (monthIndicador = false, monthIndex: number) => {

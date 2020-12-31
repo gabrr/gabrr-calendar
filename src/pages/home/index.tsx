@@ -1,36 +1,23 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Arrow } from '../../components/atoms'
 import { Calendar } from '../../components/organisms/calendar'
 import { CURRENT_DATE } from '../../utils/Constants'
 import { getDaysInMonth, getStartWeekDay } from '../../utils/Time'
+import { allMonthsConstructor } from '../allMonths/helpers'
 
-
-const CALENDAR = {
-    december2020: {
-        start: getStartWeekDay(new Date('12-01-2020')),
-        days: getDaysInMonth(new Date('12-01-2020'))
-    },
-    january2021: {
-        start: getStartWeekDay(new Date('01-01-2021')),
-        days: getDaysInMonth(new Date('01-01-2021'))
-    },
-    february2021: {
-        start: getStartWeekDay(new Date('02-01-2021')),
-        days: getDaysInMonth(new Date('02-01-2021'))
-    },
+interface RouteParams {
+    id: string
 }
 
-
 export const Home: React.FC<any> = (props) => {
-    const [date, setdate] = useState(CURRENT_DATE)
     const history = useHistory()
+    const { id: date } = useParams<RouteParams>()
 
     const goBack = () => {
         history.push('/all-months')
     }
-
 
     return (
         <Div>
