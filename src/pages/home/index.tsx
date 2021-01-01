@@ -1,8 +1,13 @@
+// libraries
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+
+// components
 import { Arrow } from '../../components/atoms'
-import { Calendar } from '../../components/organisms/calendar'
+import { Calendar, RemindersList, ReminderForm } from '../../components/organisms'
+
+// functions
 import { getListOfDays } from '../allMonths/helpers'
 
 interface RouteParams {
@@ -28,12 +33,22 @@ export const Home: React.FC<any> = (props) => {
                    <h1>{new Date(date).getFullYear()}</h1>
                 </div>
             </div>
-            <Calendar className="calendar" nextMonthsIndicator={true} month={date} days={days} selected={date} />
+            <div className="row">
+                <Calendar className="calendar" nextMonthsIndicator={true} month={date} days={days} selected={date} />
+                <RemindersList selected={date} />
+            </div>
+            <ReminderForm />
         </Div>
     )
 }
 
 const Div = styled.div`
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
     .header {
         display: flex;
         flex-direction: row;
@@ -50,6 +65,7 @@ const Div = styled.div`
         border-radius: 100%;
         background-color: var(--hoverable-background);
         outline: none;
+        transition: 200ms ease-in-out;
 
         &:hover {
             background-color: var(--hovered-background);

@@ -9,3 +9,6 @@ export { default as Clock } from './Icons/clock'
 export { default as Arrow } from './Icons/arrow'
 export { default as Location } from './Icons/locationIcon'
 export { default as Plus } from './Icons/plusIcon'
+
+export { Input } from './input'
+export { Select } from './select'

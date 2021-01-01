@@ -7,7 +7,7 @@
 :root {
   --background: #fff;
   --text-on-light: #444;
-  --text-on-dark: rgba(255, 255, 255, 0.8);
+  --text-on-dark: rgba(255, 255, 255, 0.9);
   --offset-color: #999;
   --primary-color: #EB5580;
 
@@ -17,11 +17,11 @@
   --green: #54B905;
 
   --negative: #DF1B1B;
-  --negative-background: #FFE1E1;
+  --negative-background: rgba(181, 25, 25, .2);
   
   --hoverable-background: #F3F3F3;
   --hoverable-icon: #444444;
-  --hovered-background: #F3F3F3;
+  --hovered-background: rgba(0, 0, 0, 0.08);
   --hovered-icon: #444444;
 }
 
