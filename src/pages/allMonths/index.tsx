@@ -2,52 +2,66 @@ import React, { useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Calendar } from '../../components/organisms/calendar';
+import { IMonth } from '../../types/months';
 import { CURRENT_DATE } from '../../utils/Constants';
 import { allMonthsConstructor } from './helpers';
 
-interface RouteParams {
-    
-}
-
 export const AllMonths: React.FC<any> = (props) => {
 
-    allMonthsConstructor('12-1-2020')
+    useEffect(() => {
+        const targetScroll: any = window[new Date().getFullYear()]
+        window.scrollTo(0, targetScroll.offsetTop)
+    }, [])
+
+    console.log(allMonthsConstructor())
 
     return (
         <Div>
-            <Calendar className="calendar" month="01-01.2021" />
-            <Calendar className="calendar" month="02-01.2021" />
-            <Calendar className="calendar" month="03-01.2021" />
-            <Calendar className="calendar" month="04-01.2021" />
-            <Calendar className="calendar" month="05-01.2021" />
-            <Calendar className="calendar" />
+            {Object.entries(allMonthsConstructor()).map(([year, months]) => {
+                return (
+                    <div key={year+'year'}>
+                        <h1 className="year_header" id={year} > {year} </h1>
+                        <div className="grid">
+                            {
+                                Object.entries(months).map(([month, days]) => {
+                                    return <Calendar days={days} key={month+'month'} month={`${month}-1-${year}`} />
+                                })
+                            }
+                        </div>
+                    </div>
+                )
+            })}
         </Div>
     )
 }
 
 const Div = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 30px;
-    margin: 20px 5%;
-    width: 90%;
+    margin: 10px auto;
+    width: 85%;
+
+    h1.year_header {
+        margin: 50px 0 -30px;
+        top: 0;
+        position: sticky;
+        z-index: 3;
+        padding: 10px 0 50px;
+        width: 100%;
+        background-image: linear-gradient(var(--background) 60%, transparent);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 30px;
+        width: 100%;
+    }
 
     .calendar {
         width: 100%;
+    }
 
-        .weekday, .spots {
-            padding: 6px;
-        }
-        .weekday_text, .spot_text {
-            padding: 3px;
-            font-size: 14px;
-        }
-        .spots {
-            padding: 10px;
-        }
-        .spot_text {
-            padding: 5px;
-            font-size: 12px;
-        }
-    } 
+    .month_indicator {
+        width: 95%;
+        margin: auto;
+    }
 `

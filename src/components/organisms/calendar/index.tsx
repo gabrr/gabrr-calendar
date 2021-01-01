@@ -1,29 +1,49 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { dates } from '../../../MOCK'
 import { CURRENT_DATE } from '../../../utils/Constants'
 import { getMonthName } from '../../../utils/Time'
 import { getClassIfOffset, getClassIfSelected, indicatorClass, monthIndicatorConstructor } from './helper'
-import moment from 'moment'
+import { IMonth } from '../../../types/months'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
     className?: string
     nextMonthsIndicator?: boolean
     selected?: string
     month?: string
+    days: IMonth | any
 }
 
 
+export const Calendar: React.FC<Props> = ({
+    className,
+    nextMonthsIndicator = false,
+    selected = CURRENT_DATE,
+    month = CURRENT_DATE,
+    days
+}) => {
 
+    const history = useHistory()
 
-export const Calendar: React.FC<Props> = ({ className, nextMonthsIndicator = false, selected = '12-31-2020', month = '12-31-2020' }) => {
+    const navigate = (day: string) => {
+        history.push('/date/'+day)
+    }
+
+    const changeMonth = (date: any) => {
+        navigate(date)
+    }
+
     return (
         <Div className={className}>
             <div className="month_indicator">
                 {monthIndicatorConstructor(month).map((month_i, index) => {
                     return (
-                        <div className={`month cursor ${indicatorClass(nextMonthsIndicator, index)}`}>
-                            {month_i}
+                        <div
+                            key={index+'indicator'}
+                            className={`month cursor ${indicatorClass(nextMonthsIndicator, index)}`}
+                            onClick={() => changeMonth(month_i)}
+                        >
+                            {getMonthName(month_i)}
                         </div>
                     ) 
                 })}
@@ -52,13 +72,14 @@ export const Calendar: React.FC<Props> = ({ className, nextMonthsIndicator = fal
                 </div>
             </div>
             <div className="calendar_body">
-                {dates.map((date, index) => {
+                {days.map((day: any, index: any) => {
                     return (
                         <div
                             key={index}
-                            className={`spots cursor ${getClassIfOffset(date, selected)} ${getClassIfSelected(date, selected)}`}
+                            className={`spots cursor ${getClassIfOffset(day, month)} ${getClassIfSelected(day, selected)}`}
+                            onClick={() => navigate(day)}
                         >
-                            <p className="spot_text"> {new Date(date).getDate()} </p>
+                            <p className="spot_text"> {new Date(day).getDate()} </p>
                         </div>
                     ) 
                 })}
@@ -84,17 +105,18 @@ const Div = styled.div`
         justify-items: center;
 
         .weekday {
-            padding: 10px;
+            padding: 2% 1%;
             font-weight: 500;
         }
         .weekday_text {
-            padding: 5px;
+            padding: 1%;
         }
     }
     .calendar_body {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         width: 100%;
+        min-height: 300px;
         align-items: center;
         justify-items: center;
 
@@ -106,7 +128,7 @@ const Div = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 10% 3%;
             transition: 200ms ease-in-out;
         }
 
@@ -117,7 +139,7 @@ const Div = styled.div`
 
         .spot_text {
             width: max-content;
-            padding: 5px;
+            padding: 3%;
             border-radius: 30px;
             font-weight: 300;
         }
@@ -136,7 +158,7 @@ const Div = styled.div`
         .month {
             position: relative;
             text-align: center;
-            margin: 15px;
+            margin: 20px 2%;
             font-weight: 700;
             color: var(--offset-color);
         }

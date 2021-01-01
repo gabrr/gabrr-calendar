@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Arrow } from '../../components/atoms'
 import { Calendar } from '../../components/organisms/calendar'
-import { CURRENT_DATE } from '../../utils/Constants'
-import { getDaysInMonth, getStartWeekDay } from '../../utils/Time'
-import { allMonthsConstructor } from '../allMonths/helpers'
+import { listDaysOfCurrentMonth } from '../allMonths/helpers'
 
 interface RouteParams {
     id: string
@@ -14,6 +12,7 @@ interface RouteParams {
 export const Home: React.FC<any> = (props) => {
     const history = useHistory()
     const { id: date } = useParams<RouteParams>()
+    const days = listDaysOfCurrentMonth(new Date(date).getFullYear(), new Date(date).getMonth() + 1)
 
     const goBack = () => {
         history.push('/all-months')
@@ -29,7 +28,7 @@ export const Home: React.FC<any> = (props) => {
                    <h1>{new Date(date).getFullYear()}</h1>
                 </div>
             </div>
-            <Calendar className="calendar" nextMonthsIndicator={true} />
+            <Calendar className="calendar" nextMonthsIndicator={true} month={date} days={days} selected={date} />
         </Div>
     )
 }
@@ -63,5 +62,11 @@ const Div = styled.div`
     .calendar {
         width: 35%;
         margin-left: 2%;
+
+        .month_indicator {
+            width: 95%;
+            margin: 20px auto;
+        }
     }
+
 `

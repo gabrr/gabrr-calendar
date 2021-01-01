@@ -1,6 +1,7 @@
 import { getMonthName } from './../../utils/Time/index';
 import { getDaysInMonth, getStartWeekDay } from "../../utils/Time"
 import { IAllMonths } from '../../types/months';
+import { CURRENT_DATE } from '../../utils/Constants';
 
 export const getYears = (year: number) => {
     // it returns 2 years behind and 3 years ahead
@@ -58,7 +59,7 @@ export const listDaysOfNextMonth = (total: number, daysMax: number, month: numbe
 }
 
 export const getListOfDays = (dateString: string) => {
-    const daysPerCalendar = 35
+    const daysPerCalendar = 42
     const date = new Date(dateString)
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -75,7 +76,7 @@ export const getListOfDays = (dateString: string) => {
 }
 
 
-export const allMonthsConstructor = (date = '12-31-2020') => {
+export const allMonthsConstructor = (date = CURRENT_DATE) => {
     const currentYear = new Date(date).getFullYear()
     const yearsToShow = getYears(currentYear)
     
