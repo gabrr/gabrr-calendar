@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Arrow } from '../../components/atoms'
 import { Calendar } from '../../components/organisms/calendar'
-import { listDaysOfCurrentMonth } from '../allMonths/helpers'
+import { getListOfDays } from '../allMonths/helpers'
 
 interface RouteParams {
     id: string
@@ -12,7 +12,7 @@ interface RouteParams {
 export const Home: React.FC<any> = (props) => {
     const history = useHistory()
     const { id: date } = useParams<RouteParams>()
-    const days = listDaysOfCurrentMonth(new Date(date).getFullYear(), new Date(date).getMonth() + 1)
+    const days = getListOfDays(date)
 
     const goBack = () => {
         history.push('/all-months')

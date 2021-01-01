@@ -65,7 +65,7 @@ export const getListOfDays = (dateString: string) => {
     const month = date.getMonth() + 1
 
     const daysNumPreviousMonth = getDaysInMonth(year, month - 1)
-    const [ startWeekIndex ] = getStartWeekDay(date)
+    const [ startWeekIndex ] = getStartWeekDay(new Date(`${month}-1-${year}`))
 
     const daysOfPreviousMonth = listDaysOfPrevMonth(startWeekIndex, daysNumPreviousMonth, month, year)
     const daysOfCurrentMonth = listDaysOfCurrentMonth(year, month)
