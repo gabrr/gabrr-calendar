@@ -13,7 +13,6 @@ interface Props {
 
 export const Reminder: React.FC<Props> = ({ selected, time, city, color }) => {
 
-
     return (
         <Div className={color}>
             <h4 className="reminder_text">Meeting with Company ABC CEO</h4>

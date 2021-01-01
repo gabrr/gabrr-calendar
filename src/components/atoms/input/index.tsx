@@ -1,4 +1,5 @@
-import React, { ReactHTMLElement } from 'react'
+// libraries
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props extends React.AllHTMLAttributes<HTMLInputElement> {

@@ -20,10 +20,10 @@ export const ReminderHeader = () => {
                         Reminders
                     </h1>
                     <div className="reminders_tools">
-                        <button className="circle_hoverable trash">
+                        <button className="circle_hoverable cursor trash">
                             <TrashIcon fill="red" />
                         </button>
-                        <button className="circle_hoverable plus" onClick={toggleReminderForm}>
+                        <button className="circle_hoverable cursor plus" onClick={toggleReminderForm}>
                             <Plus fill="black" />
                         </button>
                     </div>

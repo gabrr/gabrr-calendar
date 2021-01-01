@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { AllHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-interface Props {
+interface Props extends React.AllHTMLAttributes<HTMLInputElement> {
     listName: string
     options: string[]
     label: string
@@ -13,8 +13,8 @@ export const Select: React.FC<Props> = ({ listName, options, label, ownRef, ...r
         <Div>
             <label>
                 {label} <br />
-                <input list={listName} ref={ownRef} />
-                <datalist id={listName} {...rest}>
+                <input list={listName} ref={ownRef} {...rest} />
+                <datalist id={listName}>
                     {options.map((option, index) => <option key={index+'option'} value={option} />)}
                 </datalist>
             </label>

@@ -45,3 +45,16 @@ code {
 .cursor {
   cursor: pointer;
 }
+
+.orange {
+  background-color: var(--orange);
+}
+.red {
+  background-color: var(--red);
+}
+.green {
+  background-color: var(--green);
+}
+.blue {
+  background-color: var(--blue);
+}

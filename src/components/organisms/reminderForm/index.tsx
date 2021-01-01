@@ -1,7 +1,11 @@
-import React, { FormEvent, useEffect, useRef } from 'react'
+// libraries
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+
+// components and functions
 import { Input, Select } from '../../atoms'
-import { ReminderHeader, Reminder, ColorsSelect } from '../../molecules'
+import { ColorsSelect } from '../../molecules'
+import { createReminder } from '../../molecules/reminderHeader/helpers'
 import { hideReminderForm } from './helpers'
 
 
@@ -12,27 +16,28 @@ interface Props {
 
 export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) => {
 
-    const reminderTextInput = useRef<HTMLInputElement>(null);
-    const date = useRef<HTMLInputElement>(null);
-    const city = useRef<HTMLInputElement>(null);
+    const [color, setcolor] = useState('red')
+    const [hidden, sethidden] = useState('hidden')
+    
+    const reminderTextInput = useRef<HTMLInputElement>()
+    const date = useRef<HTMLInputElement>()
+    const city = useRef<HTMLInputElement>()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        console.log({
-            reminderTitle: reminderTextInput.current?.value,
-            city: city.current?.value,
-            date: date.current?.value,
+        createReminder({
+            title: reminderTextInput.current?.value || '',
+            city: city.current?.value || '',
+            date: date.current?.value || '',
+            color
         })
-    }
 
-    const setInputValues = (e: React.ChangeEvent<HTMLInputElement>, inputName: string) => {
-        const value = e.currentTarget.value.toUpperCase()
-
+        // showMessage('Sucess');
     }
 
     return (
-        <Form id="form_reminder" className="hidden" onSubmit={handleSubmit}>
+        <Form id="form_reminder" className={`${hidden} ${color}`} onSubmit={handleSubmit}>
             <h1 className="title">
                 {title}
             </h1>
@@ -41,26 +46,35 @@ export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) 
                 className="reminder_text_input"
                 type="input"
                 label="What do you want to be reminded?"
+                title="Your reminder title."
+                placeholder="Meeting with company ABC"
+                required
             />
             <Select
                 listName="cities"
                 ownRef={city}
                 label="What's the location?"
+                placeholder={'Los Angeles, CA'}
                 options={['Los Angeles, CA', 'San Francisco, CA', 'Washington, DC', 'New York, NY']}
+                required
             />
             <Input
                 ownRef={date}
                 type="datetime-local"
                 label="When to be reminded?"
+                defaultValue={new Date().toISOString().slice(0, 16)}
+                required
             />
             <ColorsSelect
-                colorSelected="red"
+                calllback={() => sethidden('')}
+                colorSelected={color}
+                setColor={setcolor}
                 label="Colors"
             />
             <div className="buttons_row">
                 <button className="save_button" type="submit">Save</button>
                 <button className="cancel_button" onClick={hideReminderForm}>
-                    Cancel
+                    Close
                 </button>
             </div>
         </Form>
@@ -69,7 +83,6 @@ export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) 
 
 const Form = styled.form`
     position: fixed;
-    background-color: var(--red);
     color: var(--text-on-dark);
     width: 60%;
     padding: 30px 60px;

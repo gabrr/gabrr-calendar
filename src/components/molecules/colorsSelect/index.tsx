@@ -1,14 +1,23 @@
-import React, { ReactHTMLElement } from 'react'
+// libraries
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
     label: string
     colorSelected: string
+    setColor: any
+    calllback?: (prop: any) => any
 }
 
-export const ColorsSelect: React.FC<Props> = ({ label, colorSelected = 'red' }) => {
+export const ColorsSelect: React.FC<Props> = ({ label, colorSelected = 'red', setColor, calllback }) => {
 
     const COLORS = ['orange', 'red', 'green', 'blue']
+
+    const onClick = (e: React.MouseEvent<HTMLDivElement>, color: string) => {
+        setColor(color)
+        calllback && calllback(e)
+    }
+
 
     return (
         <Div>
@@ -16,7 +25,11 @@ export const ColorsSelect: React.FC<Props> = ({ label, colorSelected = 'red' }) 
             <div className="colors_list">
                 {
                     COLORS.map((color, index) =>
-                        <div key={index + 'color'} className={`circle ${color} ${color === colorSelected ? 'selected' : ''}`}></div>
+                        <div
+                            key={index + 'color'}
+                            className={`circle cursor ${color} ${color === colorSelected ? 'selected' : ''}`}
+                            onClick={(e) => onClick(e, color)}
+                        ></div>
                     )
                 }
             </div>
@@ -46,19 +59,4 @@ const Div = styled.div`
             border: 2px solid #fff;
         }
     }
-
-    .orange {
-        background-color: var(--orange);
-    }
-    .red {
-        background-color: var(--red);
-    }
-    .green {
-        background-color: var(--green);
-    }
-    .blue {
-        background-color: var(--blue);
-    }
-
-
 `
