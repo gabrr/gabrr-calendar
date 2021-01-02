@@ -1,9 +1,11 @@
 // libraries
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { getCities } from '../../../redux/cities/actions'
 import { hideForm, showForm } from '../../../redux/form/actions'
 import { addReminder, updateOneReminder } from '../../../redux/reminders/actions'
+import { ICitiesResponse } from '../../../types/cities'
 
 // components and functions
 import { Input, Select } from '../../atoms'
@@ -16,9 +18,9 @@ interface Props {
 
 
 export const ReminderForm: React.FC<Props> = () => {
-    
     const formProps = useSelector((state: any) => state?.formProps )
     const reminders: any = useSelector((state: any) => state?.reminders ?? null)
+    const cities: ICitiesResponse[] = useSelector((state: any) => state?.cities ?? [])
 
     const { dateKey,  reminderId } = formProps
 
@@ -57,6 +59,10 @@ export const ReminderForm: React.FC<Props> = () => {
         disptach(hideForm())
     }
 
+    useEffect(() => {
+        getCities(disptach)
+    }, [])
+
     return (
         <Form id="form_reminder" className={`${formProps.hidden} ${formProps?.color || 'red'}`} onSubmit={handleSubmit}>
             <h1 className="title">
@@ -78,7 +84,7 @@ export const ReminderForm: React.FC<Props> = () => {
                 defaultValue={reminder?.city}
                 label="What's the location?"
                 placeholder={'Los Angeles, CA'}
-                options={['Los Angeles, CA', 'San Francisco, CA', 'Washington, DC', 'New York, NY']}
+                options={cities}
                 required
             />
             <Input

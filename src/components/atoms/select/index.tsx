@@ -1,9 +1,13 @@
+// libraries
 import React from 'react'
 import styled from 'styled-components'
 
+// types
+import { ICitiesResponse } from '../../../types/cities'
+
 interface Props extends React.AllHTMLAttributes<HTMLInputElement> {
     listName: string
-    options: string[]
+    options: ICitiesResponse[]
     label: string
     ownRef: any
 }
@@ -13,9 +17,9 @@ export const Select: React.FC<Props> = ({ listName, options, label, ownRef, ...r
         <Div>
             <label>
                 {label} <br />
-                <input list={listName} ref={ownRef} {...rest} />
+                <input type="select" list={listName} ref={ownRef} {...rest} />
                 <datalist id={listName}>
-                    {options.map((option, index) => <option key={index+'option'} value={option} />)}
+                    {options.map((option, index) => <option key={index+'option'} value={`${option.Primary_city}, ${option.State}`} />)}
                 </datalist>
             </label>
         </Div>
@@ -25,6 +29,10 @@ export const Select: React.FC<Props> = ({ listName, options, label, ownRef, ...r
 const Div = styled.div`
     label {
         font-size: 13px;
+    }
+
+    datalist {
+        max-height: 400px;
     }
 
     input {
