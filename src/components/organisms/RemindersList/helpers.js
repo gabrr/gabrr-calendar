@@ -1,6 +1,3 @@
-import { IReminder } from '../../molecules/reminderHeader/helpers';
-
-
 export const sortReminders = (reminders) => {
     const result = {}
 

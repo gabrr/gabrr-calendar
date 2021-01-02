@@ -1,5 +1,5 @@
 // libraries
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { hideForm, showForm } from '../../../redux/form/actions'
@@ -9,8 +9,6 @@ import { addReminder, updateOneReminder } from '../../../redux/reminders/actions
 import { Input, Select } from '../../atoms'
 import { ColorsSelect } from '../../molecules'
 import { IReminder } from '../../molecules/reminderHeader/helpers'
-import { hideReminderForm } from './helpers'
-
 
 interface Props {
     title?: string

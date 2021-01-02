@@ -1,5 +1,5 @@
 // libraries
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -18,7 +18,8 @@ interface RouteParams {
 export const Home: React.FC<any> = (props) => {
     const history = useHistory()
     const { id: date } = useParams<RouteParams>()
-    const reminders = useSelector((state: any) => state?.reminders[date] ?? null)
+    const state = useSelector((state: any) => state)
+    const reminders = useSelector((state: any) => state?.reminders[date])
 
     const days = getListOfDays(date)
 

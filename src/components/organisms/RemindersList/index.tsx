@@ -9,7 +9,6 @@ import { ReminderHeader, Reminder } from '../../molecules'
 import { showForm } from '../../../redux/form/actions'
 import { deleteReminders } from '../../../redux/reminders/actions'
 import { getToRouteFormat } from '../../../utils/Time'
-import { IReminder } from '../../molecules/reminderHeader/helpers'
 import { sortReminders } from './helpers'
 
 
@@ -56,7 +55,7 @@ export const RemindersList: React.FC<Props> = ({ reminders, selected }) => {
     const deleteAllReminders = () => {
         const allReminders: string[] = [''] 
         reminders && Object.entries(reminders).forEach(([key, data]) => allReminders.push(key) )
-        setremindersToDelete(allReminders)
+        dispatch(deleteReminders(getToRouteFormat(selected), allReminders))
         deleteReminder()
         setdeleteMode(false)
     }

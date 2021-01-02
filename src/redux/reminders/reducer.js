@@ -3,7 +3,6 @@ import {
     ADD_REMINDER,
     UPDATE_REMINDER,
     DELETE_REMINDER,
-    GET_REMINDER,
     UPDATE_REMINDERS
 } from './constants'
 
