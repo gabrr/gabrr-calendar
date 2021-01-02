@@ -58,3 +58,19 @@ code {
 .blue {
   background-color: var(--blue);
 }
+
+@keyframes junggleMode {
+  from {
+    transform: skew(1deg, 1deg);
+  } to {
+    transform: scale(-1deg, -1deg);
+  }
+}
+
+.junggleMode {
+  animation: junggleMode 300ms ease-in-out infinite alternate;
+}
+
+.fade {
+  opacity: .5;
+}

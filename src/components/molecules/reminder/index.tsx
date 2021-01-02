@@ -44,6 +44,10 @@ export const Reminder: React.FC<Props> = ({ selected, title, reminderId, date, c
 }
 
 const Div = styled.div`
+    border-radius: 15px;
+    width: 92%;
+    transition: 300ms ease-in-out;
+    
     .inner_content {
         pointer-events: none;
         padding: 15px 25px;
@@ -55,10 +59,6 @@ const Div = styled.div`
             'time time time forecast'
         ;
     }
-
-    border-radius: 15px;
-    width: 92%;
-    
 
     &.orange {
         background-color: var(--orange);

@@ -16,14 +16,16 @@ const reminderReducer = (state = INITIAL_STATE, action) => {
             return { ...state, [action.dateKey]: { ...state[action.dateKey], [action.reminderId]: action.newReminder } }
         case DELETE_REMINDER:
             if ( !Object.keys(state).includes(action.dateKey) ) return state
-            let newReminders = {}
             
-            Object.entries(state[action.dateKey])
-                .forEach((reminderKey, data) => {
-                    !action.ids.includes(reminderKey) && (newReminders = { ...newReminders, [reminderKey]: data }) }
+            const stateByDate = { ...state[action.dateKey] }
+            const remindersByDate = {}
+            
+            Object.entries(stateByDate)
+                .forEach(([reminderKey, data]) => {
+                    !action.ids.includes(reminderKey) && (() => remindersByDate[reminderKey] = data )() }
                 )
 
-            const newState = { ...state, [action.dateKey]: newReminders }
+            const newState = { ...state, [action.dateKey]: { ...remindersByDate } }
 
             localStorage.setItem('reminders', JSON.stringify(newState))
 

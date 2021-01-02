@@ -6,7 +6,7 @@ export {}
 
 test('Delete multiple reminders', () => {
     
-    const keyDate = '2021-01-01'
+    const keyDate = '1-1-2021'
 
     const reminder = {
         city: "San Francisco, CA",
@@ -16,18 +16,20 @@ test('Delete multiple reminders', () => {
     }
 
     store.dispatch(addReminder(reminder))
+    store.dispatch(addReminder(reminder))
+    store.dispatch(addReminder(reminder))
+
     const reminders = store.getState().reminders
 
-    const reminderKey = Object.keys(reminders["2021-01-01"])[0]
-    
-
+    const reminderKey = Object.keys(reminders[keyDate])[0]
+    const reminderKey1 = Object.keys(reminders[keyDate])[1]
+    const reminderKey2 = Object.keys(reminders[keyDate])[2]
 
     store.dispatch(deleteReminders(keyDate, [reminderKey]))
+    store.dispatch(deleteReminders(keyDate, [reminderKey1]))
+    store.dispatch(deleteReminders(keyDate, [reminderKey2]))
 
-    expect(reminders[keyDate][reminderKey]).toEqual({
-        city: "San Francisco, CA",
-        color: "green",
-        date: "2021-01-01T23:13",
-        title: "Testing deletion",
-    })
+    const newState = store.getState().reminders
+
+    expect(newState[keyDate]).toEqual({})
 })

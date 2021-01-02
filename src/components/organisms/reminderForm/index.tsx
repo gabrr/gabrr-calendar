@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { showForm } from '../../../redux/form/actions'
+import { hideForm, showForm } from '../../../redux/form/actions'
 import { addReminder, updateOneReminder } from '../../../redux/reminders/actions'
 
 // components and functions
@@ -25,11 +25,6 @@ export const ReminderForm: React.FC<Props> = () => {
     const { dateKey,  reminderId } = formProps
 
     const reminder: IReminder = dateKey && reminderId ? reminders[dateKey][reminderId] : {}
-
-    console.log({ formProps, dateKey, reminder }, 'reminder')
-
-    const [color, setcolor] = useState(formProps.color)
-    const [hidden, sethidden] = useState(formProps.hidden)
     
     const reminderTextInput = useRef<HTMLInputElement>()
     const date = useRef<HTMLInputElement>()
@@ -40,12 +35,12 @@ export const ReminderForm: React.FC<Props> = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        hideReminderForm()
+        closeForm()
 
         const newReminder = {
             title: reminderTextInput.current?.value || '',
             city: city.current?.value || '',
-            date: date.current?.value || '',
+            date: new Date(date.current?.value || '').toLocaleString(),
             color: formProps?.color
         }
 
@@ -58,10 +53,14 @@ export const ReminderForm: React.FC<Props> = () => {
 
     const changeColor = (color: string) => {
         disptach(showForm({ dateKey, reminderId, color }))
-    } 
+    }
+
+    const closeForm = () => {
+        disptach(hideForm())
+    }
 
     return (
-        <Form id="form_reminder" className={`${formProps?.hidden} ${formProps?.color || 'red'}`} onSubmit={handleSubmit}>
+        <Form id="form_reminder" className={`${formProps.hidden} ${formProps?.color || 'red'}`} onSubmit={handleSubmit}>
             <h1 className="title">
                 {dateKey && reminderId ? 'Editing Reminder' : 'Creating Reminder'}
             </h1>
@@ -92,14 +91,13 @@ export const ReminderForm: React.FC<Props> = () => {
                 required
             />
             <ColorsSelect
-                calllback={() => sethidden('')}
                 colorSelected={formProps?.color}
                 setColor={changeColor}
                 label="Colors"
             />
             <div className="buttons_row">
                 <button className="save_button cursor" type="submit">Save</button>
-                <button className="cancel_button cursor" type="reset" onClick={hideReminderForm}>
+                <button className="cancel_button cursor" type="reset" onClick={closeForm}>
                     Close
                 </button>
             </div>

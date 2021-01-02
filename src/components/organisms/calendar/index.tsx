@@ -130,11 +130,36 @@ const Div = styled.div`
             justify-content: center;
             padding: 10% 3%;
             transition: 200ms ease-in-out;
-        }
+            position: relative;
 
-        .spots:hover .spot_text {
-            background-color: var(--hovered-background);
-            color: var(--text-on-light);
+            &::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                z-index: -1;
+                transform: translate(-50%, -50%);
+                
+            }
+
+            &.selected {
+                color: var(--text-on-dark);
+            }
+
+            &.selected::after {
+                background-color: var(--primary-color);
+            }
+
+            &:hover::after {
+                background-color: var(--hovered-background);
+            }
+
+            &:hover {
+                color: var(--text-on-light);
+            }
         }
 
         .spot_text {
@@ -142,11 +167,6 @@ const Div = styled.div`
             padding: 3%;
             border-radius: 30px;
             font-weight: 300;
-        }
-
-        .selected .spot_text {
-            background-color: var(--primary-color);
-            color: var(--text-on-dark);
         }
     }
 

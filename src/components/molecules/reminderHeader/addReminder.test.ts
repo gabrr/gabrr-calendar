@@ -13,8 +13,8 @@ test('Create reminder with fields title, city, date time, and color', () => {
 
     const data: any = window.localStorage.getItem('reminders')
     const dataParsed = JSON.parse(data)
-
-    expect(dataParsed['2021-01-02'][id]).toEqual({
+    
+    expect(dataParsed['1-2-2021'][id]).toEqual({
         title: 'Meeting with USA President',
         city: 'Los Angeles, CA',
         date: '2021-01-02T18:30',

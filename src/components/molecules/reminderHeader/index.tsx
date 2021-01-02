@@ -1,16 +1,29 @@
 // libraries
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { showForm } from '../../../redux/form/actions'
 
 // components
 import { Plus } from '../../atoms'
 import TrashIcon from '../../atoms/Icons/trashCan'
 
-export const ReminderHeader = () => {
+interface Props {
+    deleteMode: () => void
+    isDeleteMode: boolean
+    deleteReminders: () => void
+    remindersToDelete: string[]
+    deleteAllReminders: () => void
+}
 
-    const toggleReminderForm = () => {
-        document.getElementById('form_reminder')?.classList.remove('hidden')
-        console.log(document.getElementById('form_reminder'))
+
+export const ReminderHeader: React.FC<Props> = ({ deleteMode, isDeleteMode, deleteReminders, remindersToDelete, deleteAllReminders }) => {
+
+    const dispatch = useDispatch()
+
+
+    const showReminderForm = () => {
+        dispatch(showForm({ color: 'red' }))
     }
 
     return (
@@ -20,14 +33,23 @@ export const ReminderHeader = () => {
                         Reminders
                     </h1>
                     <div className="reminders_tools">
-                        <button className="circle_hoverable cursor trash">
+                        <button className="circle_hoverable cursor trash" onClick={deleteMode}>
                             <TrashIcon fill="red" />
                         </button>
-                        <button className="circle_hoverable cursor plus" onClick={toggleReminderForm}>
+                        <button className="circle_hoverable cursor plus" onClick={showReminderForm}>
                             <Plus fill="black" />
                         </button>
                     </div>
                 </div>
+                {
+                    isDeleteMode && <> 
+                        <div className="row deletion_row">
+                            <button className="cursor delete delete_reminders" onClick={deleteReminders}> Delete {remindersToDelete.length - 1} </button>
+                            <button className="cursor delete delete_all_reminders" onClick={deleteAllReminders} >Delete all reminders</button>
+                            <button className="cursor cancel_deleting delete" onClick={deleteMode}>Cancel</button>
+                        </div>
+                    </>
+                }
         </Div>
     )
 }
@@ -40,9 +62,30 @@ const Div = styled.div`
     .row {
         display: flex;
         flex-direction: row;
+        align-items: center;
         justify-content: space-between;
     }
 
+    .deletion_row {
+        justify-content: flex-start;
+    }
+
+    .delete {
+        color: var(--negative);
+        background-color: transparent;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 10px 50px 0 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .cancel_deleting {
+        color: var(--text-on-light);
+    }
+    
     .reminder_title {
         
     }
@@ -64,7 +107,21 @@ const Div = styled.div`
             margin: 0 6px;
 
             &.trash {
-                background-color: var(--negative-background)
+                background-color: #ffebeb;
+                transition: background-color 200ms ease-in-out;
+
+                &:hover {
+                    background-color: var(--negative-background);
+                }
+            }
+
+            &.plus {
+                background-color: var(--hoverable-background);
+                transition: background-color 200ms ease-in-out;
+
+                &:hover {
+                    background-color: var(--hovered-background);
+                }
             }
         }
     }
