@@ -13,3 +13,14 @@ export const getMonthName = (date: string) => {
   const newDate = new Date(date)!.toUTCString()
   return newDate.match(/[\S][\w]./gi)![2].toUpperCase()
 }
+
+export const getToRouteFormat = (date: string) => {
+  const newDate = new Date(date)
+
+  const year = newDate.getFullYear()
+  const month = newDate.getMonth() + 1
+  const day = newDate.getDate()
+
+  return `${month}-${day}-${year}`
+
+}

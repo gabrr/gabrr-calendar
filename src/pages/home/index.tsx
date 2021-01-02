@@ -1,5 +1,6 @@
 // libraries
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -17,6 +18,8 @@ interface RouteParams {
 export const Home: React.FC<any> = (props) => {
     const history = useHistory()
     const { id: date } = useParams<RouteParams>()
+    const reminders = useSelector((state: any) => state?.reminders[date] ?? null)
+
     const days = getListOfDays(date)
 
     const goBack = () => {
@@ -35,7 +38,7 @@ export const Home: React.FC<any> = (props) => {
             </div>
             <div className="row">
                 <Calendar className="calendar" nextMonthsIndicator={true} month={date} days={days} selected={date} />
-                <RemindersList selected={date} />
+                <RemindersList selected={date} reminders={reminders} />
             </div>
             <ReminderForm />
         </Div>

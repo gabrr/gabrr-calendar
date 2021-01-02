@@ -1,11 +1,14 @@
 // libraries
 import React, { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { showForm } from '../../../redux/form/actions'
+import { addReminder, updateOneReminder } from '../../../redux/reminders/actions'
 
 // components and functions
 import { Input, Select } from '../../atoms'
 import { ColorsSelect } from '../../molecules'
-import { createReminder } from '../../molecules/reminderHeader/helpers'
+import { IReminder } from '../../molecules/reminderHeader/helpers'
 import { hideReminderForm } from './helpers'
 
 
@@ -14,37 +17,59 @@ interface Props {
 }
 
 
-export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) => {
+export const ReminderForm: React.FC<Props> = () => {
+    
+    const formProps = useSelector((state: any) => state?.formProps )
+    const reminders: any = useSelector((state: any) => state?.reminders ?? null)
 
-    const [color, setcolor] = useState('red')
-    const [hidden, sethidden] = useState('hidden')
+    const { dateKey,  reminderId } = formProps
+
+    const reminder: IReminder = dateKey && reminderId ? reminders[dateKey][reminderId] : {}
+
+    console.log({ formProps, dateKey, reminder }, 'reminder')
+
+    const [color, setcolor] = useState(formProps.color)
+    const [hidden, sethidden] = useState(formProps.hidden)
     
     const reminderTextInput = useRef<HTMLInputElement>()
     const date = useRef<HTMLInputElement>()
     const city = useRef<HTMLInputElement>()
+    
+    const disptach = useDispatch()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        createReminder({
+        hideReminderForm()
+
+        const newReminder = {
             title: reminderTextInput.current?.value || '',
             city: city.current?.value || '',
             date: date.current?.value || '',
-            color
-        })
+            color: formProps?.color
+        }
 
+        if (dateKey && reminderId) return disptach(updateOneReminder(dateKey, reminderId, newReminder))
+
+        disptach(addReminder(newReminder))
+        
         // showMessage('Sucess');
     }
 
+    const changeColor = (color: string) => {
+        disptach(showForm({ dateKey, reminderId, color }))
+    } 
+
     return (
-        <Form id="form_reminder" className={`${hidden} ${color}`} onSubmit={handleSubmit}>
+        <Form id="form_reminder" className={`${formProps?.hidden} ${formProps?.color || 'red'}`} onSubmit={handleSubmit}>
             <h1 className="title">
-                {title}
+                {dateKey && reminderId ? 'Editing Reminder' : 'Creating Reminder'}
             </h1>
             <Input
                 ownRef={reminderTextInput}
                 className="reminder_text_input"
                 type="input"
+                defaultValue={reminder?.title}
                 label="What do you want to be reminded?"
                 title="Your reminder title."
                 placeholder="Meeting with company ABC"
@@ -53,6 +78,7 @@ export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) 
             <Select
                 listName="cities"
                 ownRef={city}
+                defaultValue={reminder?.city}
                 label="What's the location?"
                 placeholder={'Los Angeles, CA'}
                 options={['Los Angeles, CA', 'San Francisco, CA', 'Washington, DC', 'New York, NY']}
@@ -62,18 +88,18 @@ export const ReminderForm: React.FC<Props> = ({ title = 'Editing Reminder',  }) 
                 ownRef={date}
                 type="datetime-local"
                 label="When to be reminded?"
-                defaultValue={new Date().toISOString().slice(0, 16)}
+                defaultValue={reminder?.date || new Date().toISOString().slice(0, 16)}
                 required
             />
             <ColorsSelect
                 calllback={() => sethidden('')}
-                colorSelected={color}
-                setColor={setcolor}
+                colorSelected={formProps?.color}
+                setColor={changeColor}
                 label="Colors"
             />
             <div className="buttons_row">
-                <button className="save_button" type="submit">Save</button>
-                <button className="cancel_button" onClick={hideReminderForm}>
+                <button className="save_button cursor" type="submit">Save</button>
+                <button className="cancel_button cursor" type="reset" onClick={hideReminderForm}>
                     Close
                 </button>
             </div>
@@ -124,11 +150,19 @@ const Form = styled.form`
         .save_button {
             background-color: rgba(255, 255, 255, 0.2);
             color: var(--text-on-dark);
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
         }
 
         .cancel_button {
             background-color: var(--negative-background);
             color: var(--text-on-dark);
+
+            &:hover {
+                background-color: rgba(255, 0, 0, 0.3);
+            }
         }
     }
 

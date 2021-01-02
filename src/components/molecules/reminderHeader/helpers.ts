@@ -1,27 +1,33 @@
+import { getToRouteFormat } from './../../../utils/Time/index';
 import { v4 as uuid } from "uuid";
 
-interface Props {
+export interface IReminder {
     title: string
     city: string
     date: string
     color: string
 }
 
-type CreateReminder = (props: Props) => string
+type CreateReminder = (props: IReminder) => [string, any]
 
 
 export const createReminder: CreateReminder = ({ date, ...rest }) => {
-    const key = date.slice(0, 10)
-    const data: string = localStorage.getItem('key') || ''
-    const dataStoraged = data && JSON.parse(data)
+    const key = getToRouteFormat(date)
+    const allReminders: string = localStorage.getItem('reminders') || ''
+    const parsedAllReminders = allReminders && JSON.parse(allReminders)
+    const filteredByDate = parsedAllReminders[key]
+
     const reminderID = uuid()
 
-    localStorage.setItem(key, JSON.stringify(
-        {
-            ...dataStoraged,
+    const reminders = {
+        ...parsedAllReminders,
+        [key]: {
+            ...filteredByDate,
             [reminderID]: { date, ...rest }
         }
-    ))
+    }
 
-    return reminderID
+    localStorage.setItem('reminders', JSON.stringify(reminders))
+
+    return [ reminderID, reminders ]
 }

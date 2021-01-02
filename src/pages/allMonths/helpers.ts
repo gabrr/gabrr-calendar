@@ -1,4 +1,3 @@
-import { getMonthName } from './../../utils/Time/index';
 import { getDaysInMonth, getStartWeekDay } from "../../utils/Time"
 import { IAllMonths } from '../../types/months';
 import { CURRENT_DATE } from '../../utils/Constants';

@@ -10,7 +10,7 @@ export const CurrentMonth: React.FC<any> = (props) => {
     
     useEffect(() => {
         history.push(`/date/${CURRENT_DATE}`)
-    }, [])
+    }, [history])
 
     return <></>
 }

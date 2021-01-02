@@ -5,28 +5,38 @@ import { Clock, Location, NoForecast } from '../../atoms'
 
 interface Props {
     selected?: string
-    time: string
+    date: string
     city: string
     color: string
+    reminderId: string
+    title: string
+    onClick: (prop: any) => any
 }
 
 
-export const Reminder: React.FC<Props> = ({ selected, time, city, color }) => {
+export const Reminder: React.FC<Props> = ({ selected, title, reminderId, date, city, color, onClick }) => {
 
     return (
-        <Div className={color}>
-            <h4 className="reminder_text">Meeting with Company ABC CEO</h4>
-            <div className="location">
-                <Location fill="white" />
-                <p> {city} </p>
-            </div>
-            <div className="time">
-                <Clock />
-                <p>{time}</p>
-            </div>
-            <div className="forecast">
-                <div className="circle_background">
-                    <NoForecast />
+        <Div
+            onClick={() => onClick({ color, date, reminderId })}
+            id={reminderId}
+            className={`${color} reminder_card cursor`}
+            key={reminderId}
+        >
+            <div className="inner_content">
+                <h4 className="reminder_text">{title}</h4>
+                <div className="location">
+                    <Location fill="white" />
+                    <p> {city} </p>
+                </div>
+                <div className="time">
+                    <Clock />
+                    <p>{date}</p>
+                </div>
+                <div className="forecast">
+                    <div className="circle_background">
+                        <NoForecast />
+                    </div>
                 </div>
             </div>
         </Div>
@@ -34,16 +44,21 @@ export const Reminder: React.FC<Props> = ({ selected, time, city, color }) => {
 }
 
 const Div = styled.div`
-    width: 92%;
-    padding: 15px 25px;
+    .inner_content {
+        pointer-events: none;
+        padding: 15px 25px;
+        display: grid;
+        color: var(--text-on-dark);
+        grid-template-areas:
+            'text text text forecast'
+            'loca loca loca forecast'
+            'time time time forecast'
+        ;
+    }
+
     border-radius: 15px;
-    display: grid;
-    color: var(--text-on-dark);
-    grid-template-areas:
-        'text text text forecast'
-        'loca loca loca forecast'
-        'time time time forecast'
-    ;
+    width: 92%;
+    
 
     &.orange {
         background-color: var(--orange);

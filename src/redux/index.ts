@@ -4,9 +4,11 @@ import thunk from "redux-thunk";
 
 // reducers
 import reminders from './reminders/reducer'
+import formProps from './form/reducer'
 
 const reducers = combineReducers({
-    reminders
+    reminders,
+    formProps
 })
 
 export default createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))

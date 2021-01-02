@@ -1,9 +1,9 @@
+// libraries
 import React, { useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+
+// compoents and functions
 import { Calendar } from '../../components/organisms/calendar';
-import { IMonth } from '../../types/months';
-import { CURRENT_DATE } from '../../utils/Constants';
 import { allMonthsConstructor } from './helpers';
 
 export const AllMonths: React.FC<any> = (props) => {
