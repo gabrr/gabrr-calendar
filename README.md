@@ -23,7 +23,7 @@
 [Check demo](https://gabrr-calendar.netlify.app/)
 
 #### Disclaimer
-**It's working fine on Chrome. On Safari has a problem to parse a date (MM-DD-YYYY) it sets to invalid.**
+**It's working fine on Chrome. On Safari, it has a problem to parse a date (MM-DD-YYYY) it sets to invalid.**
 **It can be solved by using a server side rendering, such as NEXT, or using moment js for the whole app.**
 
 ## Requirements
