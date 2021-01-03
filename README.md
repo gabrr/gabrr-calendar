@@ -23,8 +23,8 @@
 [Check demo](https://gabrr-calendar.netlify.app/)
 
 #### Disclaimer
-**It's working fine on Chrome. On Safari has a problem to parse a date (MM-DD-YYYY) it sets to invalid.
-**It can be solved by using a server side rendering, such as NEXT, or using moment js for the whole app.
+**It's working fine on Chrome. On Safari has a problem to parse a date (MM-DD-YYYY) it sets to invalid.**
+**It can be solved by using a server side rendering, such as NEXT, or using moment js for the whole app.**
 
 ## Requirements
 
@@ -33,7 +33,7 @@
 - Yarn
 
 ## Starting the project
-**copy and paste on your terminal
+**copy and paste on your terminal**
 
 ```sh
 git clone https://github.com/gabrr/gabrr-calendar.git && yarn && yarn start
