@@ -71,6 +71,10 @@ export const getListOfDays = (dateString: string) => {
     const daysOfNextMonth = listDaysOfNextMonth(daysOfPreviousMonth.length + daysOfCurrentMonth.length, daysPerCalendar, month, year)
 
 
+    console.log(date, 'date list')
+    console.log(dateString, 'date prop')
+    // safari can't set date to Date format :(
+
     return [...daysOfPreviousMonth, ...daysOfCurrentMonth, ...daysOfNextMonth]
 }
 
