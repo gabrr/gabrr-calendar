@@ -6,11 +6,13 @@ import { getCities } from '../../../redux/cities/actions'
 import { hideForm, showForm } from '../../../redux/form/actions'
 import { addReminder, updateOneReminder } from '../../../redux/reminders/actions'
 import { ICitiesResponse } from '../../../types/cities'
+import moment from 'moment'
 
 // components and functions
 import { Input, Select } from '../../atoms'
 import { ColorsSelect } from '../../molecules'
 import { IReminder } from '../../molecules/reminderHeader/helpers'
+import { getLocalTime } from './helpers'
 
 interface Props {
     title?: string
@@ -61,7 +63,9 @@ export const ReminderForm: React.FC<Props> = () => {
 
     useEffect(() => {
         getCities(disptach)
-    }, [])
+    }, [disptach])
+
+    window.moment = moment
 
     return (
         <Form id="form_reminder" className={`${formProps.hidden} ${formProps?.color || 'red'}`} onSubmit={handleSubmit}>
@@ -91,7 +95,7 @@ export const ReminderForm: React.FC<Props> = () => {
                 ownRef={date}
                 type="datetime-local"
                 label="When to be reminded?"
-                defaultValue={reminder?.date || new Date().toISOString().slice(0, 16)}
+                defaultValue={getLocalTime(new Date(reminder?.date || new Date())).slice(0, 16)}
                 required
             />
             <ColorsSelect

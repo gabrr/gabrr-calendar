@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ICitiesResponse } from '../../../types/cities'
-import _ from "lodash";
 
 // components
 import { Clock, Location, NoForecast } from '../../atoms'
@@ -46,7 +45,7 @@ export const Reminder: React.FC<Props> = ({ title, reminderId, date, city, color
                 console.log(error)
             }
         })()
-    }, [cities])
+    }, [cities, lat, lon, date])
     
 
     return (

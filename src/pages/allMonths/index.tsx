@@ -9,8 +9,8 @@ import { allMonthsConstructor } from './helpers';
 export const AllMonths: React.FC<any> = (props) => {
 
     useEffect(() => {
-        const targetScroll: any = window[new Date().getFullYear()]
-        window.scrollTo(0, targetScroll.offsetTop)
+        const targetScroll: any = document.getElementById(`${new Date().getFullYear()}`)
+        targetScroll && window.scrollTo(0, targetScroll.offsetTop)
     }, [])
 
     console.log(allMonthsConstructor())
